@@ -12,28 +12,73 @@ struct VideosView: View {
                 Color.black.ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    Text("My Creations")
-                        .font(.system(size: 34, weight: .bold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                        .padding(.top, 60)
-                        .padding(.bottom, 13)
-
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 9) {
-                            ForEach(filters, id: \.self) { filter in
-                                FilterChip(
-                                    title: filter,
-                                    isSelected: viewModel.selectedFilter == filter,
-                                    action: { viewModel.selectedFilter = filter }
+                    // Enhanced Header
+                    VStack(spacing: 16) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("My Creations")
+                                    .font(.system(size: 32, weight: .bold))
+                                    .foregroundColor(.white)
+                                
+                                Text("\(viewModel.filteredVideos.count) videos")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                // Add action for creating new video
+                            }) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "plus")
+                                        .font(.system(size: 16, weight: .semibold))
+                                    Text("Create")
+                                        .font(.system(size: 14, weight: .semibold))
+                                }
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.purple, Color.pink],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
                                 )
+                                .cornerRadius(20)
                             }
                         }
-                        .padding(.horizontal)
-                        .padding(.vertical, 3)
+                        
+                        // Enhanced Filter Section
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(filters, id: \.self) { filter in
+                                    ModernFilterChip(
+                                        title: filter,
+                                        isSelected: viewModel.selectedFilter == filter,
+                                        count: getFilterCount(filter),
+                                        action: { 
+                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                                viewModel.selectedFilter = filter
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                        }
                     }
-                    .frame(height: 40)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 60)
+                    .padding(.bottom, 24)
+                    .background(
+                        LinearGradient(
+                            colors: [Color.black, Color.black.opacity(0.8)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
 
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVStack(spacing: 20) {
@@ -62,6 +107,81 @@ struct VideosView: View {
                 GeneratedVideoDetailView(video: video)
             }
         }
+    }
+    
+    private func getFilterCount(_ filter: String) -> Int {
+        let allVideos = AppStateManager.shared.generatedVideos
+        switch filter {
+        case "All":
+            return allVideos.count
+        case "Recent":
+            return allVideos.filter { $0.date > Date().addingTimeInterval(-86400) }.count
+        case "Completed":
+            return allVideos.filter { $0.status == .completed }.count
+        case "Pending":
+            return allVideos.filter { $0.status == .pending }.count
+        case "Failed":
+            return allVideos.filter { $0.status == .failed }.count
+        default:
+            return 0
+        }
+    }
+}
+
+struct ModernFilterChip: View {
+    let title: String
+    let isSelected: Bool
+    let count: Int
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(isSelected ? .white : .gray)
+                
+                if count > 0 {
+                    Text("\(count)")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(isSelected ? .white : .gray)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            Capsule()
+                                .fill(isSelected ? Color.white.opacity(0.2) : Color.white.opacity(0.1))
+                        )
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(
+                        isSelected ?
+                        LinearGradient(
+                            colors: [Color.purple.opacity(0.8), Color.pink.opacity(0.8)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ) :
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.08), Color.white.opacity(0.04)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(
+                        isSelected ? Color.clear : Color.white.opacity(0.15),
+                        lineWidth: 1
+                    )
+            )
+            .scaleEffect(isSelected ? 1.05 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -101,116 +221,225 @@ struct FilterChip: View {
 
 struct GeneratedVideoCard: View {
     let video: GeneratedVideo
+    @State private var isHovered = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ZStack {
-                if video.status == .completed {
-                    StoredVideoThumbnailView(video: video)
-                        .frame(height: 200)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.black.opacity(0.3))
-
-                                Image(systemName: "play.circle.fill")
-                                    .font(.system(size: 50))
-                                    .foregroundColor(.white)
-                                    .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 2)
-                            }
-                        )
-                } else {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.white.opacity(0.05))
-                        .frame(height: 200)
-                        .overlay(
-                            VStack(spacing: 12) {
-                                Image(systemName: video.status.iconName)
-                                    .font(.system(size: 40))
-                                    .foregroundColor(statusColor(video.status))
-
-                                Text(video.status.displayName)
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(.white)
-                            }
-                        )
-                }
+            videoThumbnailSection
+            videoInfoSection
+        }
+        .cardStyle
+        .scaleEffect(isHovered ? 1.02 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
+        .onTapGesture { handleTap() }
+    }
+    
+    private var videoThumbnailSection: some View {
+        ZStack {
+            if video.status == .completed {
+                completedVideoView
+            } else {
+                pendingVideoView
             }
-
-            VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    Text(video.category)
-                        .font(.system(size: 18, weight: .semibold))
+        }
+    }
+    
+    private var completedVideoView: some View {
+        StoredVideoThumbnailView(video: video)
+            .frame(height: 200)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .overlay(videoOverlay)
+    }
+    
+    private var videoOverlay: some View {
+        ZStack {
+            LinearGradient(
+                colors: [Color.clear, Color.black.opacity(0.6)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            
+            playButton
+            categoryBadge
+        }
+    }
+    
+    private var playButton: some View {
+        Button(action: {}) {
+            Circle()
+                .fill(Color.black.opacity(0.7))
+                .frame(width: 50, height: 50)
+                .overlay(
+                    Image(systemName: "play.fill")
+                        .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
-                        .lineLimit(1)
-
-                    Spacer()
-
-                    Text(timeAgo(from: video.date))
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-
-                if let prompt = video.prompt {
-                    Text(prompt)
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-                        .lineLimit(2)
-                }
-
-                HStack {
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(statusColor(video.status))
-                            .frame(width: 8, height: 8)
-                        Text(video.status.displayName)
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal, 10)
+                        .offset(x: 2)
+                )
+        }
+    }
+    
+    private var categoryBadge: some View {
+        VStack {
+            HStack {
+                Text(video.category)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.white.opacity(0.1))
-                    .cornerRadius(12)
-
-                    Spacer()
+                    .background(
+                        Capsule().fill(statusColor(video.status).opacity(0.8))
+                    )
+                Spacer()
+            }
+            Spacer()
+        }
+        .padding(12)
+    }
+    
+    private var pendingVideoView: some View {
+        RoundedRectangle(cornerRadius: 16)
+            .fill(Color.white.opacity(0.05))
+            .frame(height: 200)
+            .overlay(pendingContent)
+    }
+    
+    private var pendingContent: some View {
+        VStack(spacing: 16) {
+            Circle()
+                .fill(statusColor(video.status).opacity(0.2))
+                .frame(width: 60, height: 60)
+                .overlay(
+                    Image(systemName: video.status.iconName)
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundColor(statusColor(video.status))
+                )
+            
+            VStack(spacing: 4) {
+                Text(video.status.displayName)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.white)
+                
+                if video.status == .pending {
+                    Text("Processing your video...")
+                        .font(.system(size: 12))
+                        .foregroundColor(.gray)
                 }
             }
-            .padding(16)
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white.opacity(0.05))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-        )
-    }
-
-    func timeAgo(from date: Date) -> String {
-        let interval = Date().timeIntervalSince(date)
-        let hours = Int(interval / 3600)
-
-        if hours < 1 {
-            return "Just now"
-        } else if hours < 24 {
-            return "\(hours)h ago"
-        } else {
-            return "\(hours / 24)d ago"
         }
     }
-
-    func statusColor(_ status: GeneratedVideoStatus) -> Color {
-        switch status {
-        case .pending:
-            return .orange
-        case .completed:
-            return .green
-        case .failed:
-            return .red
+    
+    private var videoInfoSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            headerInfo
+            
+            if let prompt = video.prompt {
+                Text(prompt)
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.9))
+                    .lineLimit(2)
+            }
+            
+            if video.status == .completed {
+                actionButtons
+            }
         }
+        .padding(16)
+    }
+    
+    private var headerInfo: some View {
+        HStack {
+            Text(timeAgo(from: video.date))
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.gray)
+            
+            Spacer()
+            
+            statusIndicator
+        }
+    }
+    
+    private var statusIndicator: some View {
+        HStack(spacing: 4) {
+            Circle()
+                .fill(statusColor(video.status))
+                .frame(width: 6, height: 6)
+            Text(video.status.displayName)
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(statusColor(video.status))
+        }
+    }
+    
+    private var actionButtons: some View {
+        HStack(spacing: 8) {
+            actionButton(icon: "square.and.arrow.up", text: "Share")
+            actionButton(icon: "arrow.down.to.line", text: "Save")
+            Spacer()
+        }
+    }
+    
+    private func actionButton(icon: String, text: String) -> some View {
+        Button(action: {}) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 12))
+                Text(text)
+                    .font(.system(size: 12, weight: .medium))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(Color.white.opacity(0.1))
+            .cornerRadius(8)
+        }
+    }
+    
+    private func handleTap() {
+        withAnimation(.spring(response: 0.2, dampingFraction: 0.8)) {
+            isHovered.toggle()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isHovered = false
+            }
+        }
+    }
+}
+
+extension View {
+    var cardStyle: some View {
+        self
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white.opacity(0.06))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(0.12), lineWidth: 0.5)
+            )
+            .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+    }
+}
+
+func timeAgo(from date: Date) -> String {
+    let interval = Date().timeIntervalSince(date)
+    let hours = Int(interval / 3600)
+
+    if hours < 1 {
+        return "Just now"
+    } else if hours < 24 {
+        return "\(hours)h ago"
+    } else {
+        return "\(hours / 24)d ago"
+    }
+}
+
+func statusColor(_ status: GeneratedVideoStatus) -> Color {
+    switch status {
+    case .pending:
+        return .orange
+    case .completed:
+        return .green
+    case .failed:
+        return .red
     }
 }
 
