@@ -224,23 +224,30 @@ struct VideoGenerationView: View {
     
     private var modelSelectionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("AI Model")
-                .font(.headline)
-                .foregroundColor(.white)
+            HStack {
+                Text("AI Model")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
+                Text("Choose your AI")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(VideoProvider.allCases, id: \.self) { provider in
-                        ModelCard(
-                            provider: provider,
-                            isSelected: viewModel.selectedProvider == provider,
-                            action: {
+            VStack(spacing: 8) {
+                ForEach(VideoProvider.allCases, id: \.self) { provider in
+                    ModelCard(
+                        provider: provider,
+                        isSelected: viewModel.selectedProvider == provider,
+                        action: {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 viewModel.selectedProvider = provider
                             }
-                        )
-                    }
+                        }
+                    )
                 }
-                .padding(.horizontal, 4)
             }
         }
     }
@@ -479,45 +486,120 @@ struct ModelCard: View {
     let isSelected: Bool
     let action: () -> Void
     
+    private var providerColors: [Color] {
+        switch provider {
+        case .veo:
+            return [Color.purple, Color.blue]
+        case .runway:
+            return [Color.green, Color.teal]
+        case .pixverse:
+            return [Color.orange, Color.red]
+        case .vidu:
+            return [Color.pink, Color.purple]
+        }
+    }
+    
+    private var providerDescription: String {
+        switch provider {
+        case .veo:
+            return "Advanced AI"
+        case .runway:
+            return "Creative AI"
+        case .pixverse:
+            return "Fast Generation"
+        case .vidu:
+            return "High Quality"
+        }
+    }
+    
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 8) {
-                Image(systemName: provider.icon)
-                    .font(.system(size: 24))
-                    .foregroundColor(isSelected ? .white : .gray)
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(provider.displayName)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                        
+                        Text(providerDescription)
+                            .font(.system(size: 11))
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Spacer()
+                    
+                    if isSelected {
+                        Circle()
+                            .fill(LinearGradient(
+                                colors: providerColors,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ))
+                            .frame(width: 12, height: 12)
+                            .overlay(
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 8, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                    } else {
+                        Circle()
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                            .frame(width: 12, height: 12)
+                    }
+                }
                 
-                Text(provider.displayName)
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .foregroundColor(isSelected ? .white : .gray)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.center)
+                // Gradient bar at bottom
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: isSelected ? providerColors : [Color.white.opacity(0.1), Color.white.opacity(0.1)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(height: 3)
+                    .cornerRadius(1.5)
             }
-            .frame(width: 80, height: 80)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
             .background(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: 16)
                     .fill(
                         isSelected ?
                         LinearGradient(
-                            colors: [Color.purple.opacity(0.3), Color.pink.opacity(0.3)],
+                            colors: [Color.black.opacity(0.6), Color.black.opacity(0.3)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ) :
                         LinearGradient(
-                            colors: [Color.white.opacity(0.05), Color.white.opacity(0.05)],
+                            colors: [Color.white.opacity(0.08), Color.white.opacity(0.04)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: 16)
                     .stroke(
-                        isSelected ? Color.purple : Color.white.opacity(0.2),
-                        lineWidth: isSelected ? 2 : 1
+                        isSelected ? 
+                        LinearGradient(
+                            colors: providerColors.map { $0.opacity(0.6) },
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ) :
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.15), Color.white.opacity(0.05)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: isSelected ? 1.5 : 0.5
                     )
             )
+            .scaleEffect(isSelected ? 1.02 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
