@@ -1,4 +1,30 @@
 {
+  "explore": {
+      "trend_words": "Explore the last trends and start creating now!",
+    "background_video": "explore_video",
+    "title": "ASMR",
+    "description": "Cinematic slow motion shot of a knife cutting through a pink frosted donut with colorful sprinkles, chocolate glaze dripping dramatically, macro close-up perspective, warm studio lighting on wooden surface, creamy filling visible inside, professional food photography style, shallow depth of field, 4K ultra detailed, satisfying ASMR cutting motion, appetizing and indulgent aesthetic",
+    "likes": "",
+    "category": "Trending"
+  },
+  "suggested_prompts_explore": [
+    {
+      "id": "video_1",
+      "title": "Video Example 1",
+      "videoName": "suggest1",
+      "prompt": "Cinematic slow motion shot of a knife cutting through blue crystal donuts with sparkling particles, glass-like texture, studio lighting on wooden surface",
+      "backgroundColor": "#4169E1",
+      "category": "ASMR"
+    },
+    {
+      "id": "video_2", 
+      "title": "Video Example 2",
+      "videoName": "suggest2",
+      "prompt": "Cinematic slow motion shot of a knife cutting through red glazed donuts with colorful sprinkles, chocolate dripping, warm studio lighting",
+      "backgroundColor": "#DC143C",
+      "category": "Food"
+    }
+  ],
   "categories": [
     {
       "id": "polaroid",
@@ -7,21 +33,21 @@
         {
           "id": "booth1",
           "title": "Booth Pose 1",
-          "icon": "camera.viewfinder",
+          
           "backgroundColor": "#808080",
           "imageName": "Polaroid 1"
         },
         {
           "id": "booth2", 
           "title": "Booth Pose 2",
-          "icon": "camera.viewfinder",
+          
           "backgroundColor": "#808080",
           "imageName": "Polaroid 2"
         },
         {
           "id": "booth3",
           "title": "Booth Pose 3", 
-          "icon": "camera.viewfinder",
+          
           "backgroundColor": "#808080",
           "imageName": "Polaroid 3"
         },
@@ -35,21 +61,21 @@
         {
           "id": "cozy", 
           "title": "Ghostface\nCozy Ghost",
-          "icon": "flame.fill",
+          
           "backgroundColor": "#FF8C00",
           "imageName": "ghost1"
         },
         {
           "id": "mirror",
           "title": "Ghostface\nMirror Ghotic", 
-          "icon": "mirror.side.left",
+          
           "backgroundColor": "#808080",
           "imageName": "ghost2"
         },
         {
           "id": "movie",
           "title": "Ghostface\nMovie Night",
-          "icon": "theatermasks.fill", 
+          
           "backgroundColor": "#008000",
           "imageName": "ghost3"
         },
@@ -70,7 +96,7 @@
         {
           "id": "photomen", 
           "title": "Photoshoot 2",
-          "icon": "person.2.fill",
+          
           "backgroundColor": "#808080",
           "imageName": "mono2"
         },
@@ -92,7 +118,7 @@
         {
           "id": "veo3asmr",
           "title": "Veo 3 ASMR",
-          "icon": "waveform",
+          
           "backgroundColor": "#FF4500",
           "isGradient": true,
           "gradientColors": ["#FF0000", "#FFA500"],
@@ -101,7 +127,7 @@
         {
           "id": "livephoto",
           "title": "Live photo",
-          "icon": "camera.aperture", 
+          
           "backgroundColor": "#4169E1",
           "isGradient": true,
           "gradientColors": ["#4169E1", "#808080"],
@@ -117,7 +143,7 @@
         {
           "id": "veo3",
           "title": "Veo 3",
-          "icon": "text.bubble",
+          
           "backgroundColor": "#800080", 
           "isGradient": true,
           "gradientColors": ["#800080", "#FFC0CB"],
@@ -128,7 +154,7 @@
         {
           "id": "sora2",
           "title": "Sora 2",
-          "icon": "face.smiling.inverse",
+          
           "backgroundColor": "#808080",
           "isGradient": true, 
           "gradientColors": ["#808080", "#FFFFFF"],
@@ -144,21 +170,21 @@
         {
           "id": "dance1",
           "title": "Dance Style 1",
-          "icon": "figure.dance",
+          
           "backgroundColor": "#FF69B4",
           "imageName": "dance1"
         },
         {
           "id": "dance2",
           "title": "Dance Style 2",
-          "icon": "figure.dance",
+          
           "backgroundColor": "#FF1493",
           "imageName": "dance2"
         },
         {
           "id": "dance3",
           "title": "Dance Style 3",
-          "icon": "figure.dance",
+          
           "backgroundColor": "#DC143C",
           "imageName": "dance3"
         }
@@ -171,21 +197,21 @@
         {
           "id": "tiny1",
           "title": "Worker 1",
-          "icon": "person.fill.checkmark",
+          
           "backgroundColor": "#4CAF50",
           "imageName": "tiny1"
         },
         {
           "id": "tiny2",
           "title": "Worker 2",
-          "icon": "person.fill.checkmark",
+          
           "backgroundColor": "#2196F3",
           "imageName": "tiny2"
         },
         {
           "id": "tiny3",
           "title": "Worker 3",
-          "icon": "person.fill.checkmark",
+          
           "backgroundColor": "#FF9800",
           "imageName": "tiny3"
         }

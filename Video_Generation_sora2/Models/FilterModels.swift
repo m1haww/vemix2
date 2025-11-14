@@ -10,7 +10,7 @@ struct FilterCategory: Codable, Identifiable {
 struct FilterItem: Codable, Identifiable {
     let id: String
     let title: String
-    let icon: String
+    let icon: String?
     let backgroundColor: String
     let isGradient: Bool?
     let gradientColors: [String]?
@@ -30,6 +30,7 @@ struct FilterItem: Codable, Identifiable {
 
 class FilterDataManager: ObservableObject {
     @Published var categories: [FilterCategory] = []
+    @Published var suggestedPrompts: [SuggestedPrompt] = []
     
     init() {
         loadData()
@@ -45,12 +46,32 @@ class FilterDataManager: ObservableObject {
         do {
             let response = try JSONDecoder().decode(FilterResponse.self, from: data)
             self.categories = response.categories
+            self.suggestedPrompts = response.suggestedPromptsExplore
         } catch {
             print("Error decoding JSON: \(error)")
         }
     }
 }
 
+struct SuggestedPrompt: Codable, Identifiable {
+    let id: String
+    let title: String
+    let videoName: String
+    let prompt: String
+    let backgroundColor: String
+    let category: String
+    
+    var backgroundColorValue: Color {
+        return Color(hex: backgroundColor)
+    }
+}
+
 struct FilterResponse: Codable {
     let categories: [FilterCategory]
+    let suggestedPromptsExplore: [SuggestedPrompt]
+    
+    enum CodingKeys: String, CodingKey {
+        case categories
+        case suggestedPromptsExplore = "suggested_prompts_explore"
+    }
 }

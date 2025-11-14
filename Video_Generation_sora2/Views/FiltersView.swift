@@ -207,10 +207,6 @@ struct CardOverlay: View {
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                 }
-            } else {
-                Image(systemName: item.icon)
-                    .font(.system(size: 30))
-                    .foregroundColor(.white)
             }
             
             if item.hasNewBadge == true {

@@ -351,13 +351,13 @@ struct VideoGenerationView: View {
                     .padding(.vertical, 16)
                     .background(
                         LinearGradient(
-                            colors: [Color.purple, Color.pink],
+                            colors: [Color(hex: "B951E7"), Color(hex: "B951E7")],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
                     )
                     .cornerRadius(12)
-                    .shadow(color: Color.purple.opacity(0.3), radius: 10, x: 0, y: 4)
+                    .shadow(color: Color(hex: "B951E7").opacity(0.3), radius: 10, x: 0, y: 4)
                 }
                 .disabled(viewModel.prompt.isEmpty)
                 .opacity(viewModel.prompt.isEmpty ? 0.5 : 1.0)
@@ -489,13 +489,13 @@ struct ModelCard: View {
     private var providerColors: [Color] {
         switch provider {
         case .veo:
-            return [Color.purple, Color.blue]
+            return [Color(hex: "B951E7"), Color(hex: "B951E7")]
         case .runway:
             return [Color.green, Color.teal]
         case .pixverse:
             return [Color.orange, Color.red]
         case .vidu:
-            return [Color.pink, Color.purple]
+            return [Color(hex: "B951E7"), Color(hex: "B951E7")]
         }
     }
     

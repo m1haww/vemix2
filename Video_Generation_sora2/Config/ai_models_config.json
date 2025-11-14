@@ -1,0 +1,175 @@
+{
+  "ai_models": {
+    "providers": [
+      {
+        "id": "veo",
+        "name": "Google Veo",
+        "displayName": "Google Veo",
+        "icon": "sparkles",
+        "description": "Advanced AI with realistic motion",
+        "supportsImageInput": true,
+        "supportsAudio": true,
+        "models": [
+          {
+            "id": "veo3_fast",
+            "name": "Veo 3 Fast",
+            "displayName": "Veo 3 Fast",
+            "apiValue": "veo-3.0-fast-generate-preview",
+            "isDefault": true
+          },
+          {
+            "id": "veo3",
+            "name": "Veo 3",
+            "displayName": "Veo 3",
+            "apiValue": "veo-3.0-generate-preview"
+          },
+          {
+            "id": "veo2",
+            "name": "Veo 2",
+            "displayName": "Veo 2",
+            "apiValue": "veo-2.0-generate-001"
+          }
+        ],
+        "aspectRatios": [
+          {"id": "16:9", "displayName": "Landscape (16:9)", "value": "16:9"},
+          {"id": "1:1", "displayName": "Square (1:1)", "value": "1:1"},
+          {"id": "9:16", "displayName": "Portrait (9:16)", "value": "9:16"},
+          {"id": "4:3", "displayName": "Standard (4:3)", "value": "4:3"},
+          {"id": "3:4", "displayName": "Portrait (3:4)", "value": "3:4"}
+        ],
+        "durations": [8]
+      },
+      {
+        "id": "runway",
+        "name": "Runway",
+        "displayName": "Runway",
+        "icon": "wand.and.rays",
+        "description": "Creative AI for artistic videos",
+        "supportsImageInput": true,
+        "supportsAudio": false,
+        "models": [
+          {
+            "id": "gen4_turbo",
+            "name": "Gen-4 Turbo",
+            "displayName": "Gen-4 Turbo",
+            "apiValue": "gen4_turbo",
+            "isDefault": true
+          },
+          {
+            "id": "gen3a_turbo",
+            "name": "Gen-3 Alpha Turbo", 
+            "displayName": "Gen-3 Alpha Turbo",
+            "apiValue": "gen3a_turbo"
+          }
+        ],
+        "aspectRatios": [
+          {"id": "1280:720", "displayName": "Landscape (16:9)", "value": "1280:720"},
+          {"id": "720:1280", "displayName": "Portrait (9:16)", "value": "720:1280"},
+          {"id": "1104:832", "displayName": "Standard (4:3)", "value": "1104:832"},
+          {"id": "832:1104", "displayName": "Portrait (3:4)", "value": "832:1104"},
+          {"id": "960:960", "displayName": "Square (1:1)", "value": "960:960"}
+        ],
+        "durations": [5, 10]
+      },
+      {
+        "id": "pixverse",
+        "name": "PixVerse",
+        "displayName": "PixVerse",
+        "icon": "star.fill",
+        "description": "Fast generation with quality",
+        "supportsImageInput": false,
+        "supportsAudio": false,
+        "models": [
+          {
+            "id": "v45",
+            "name": "PixVerse 4.5",
+            "displayName": "PixVerse 4.5",
+            "apiValue": "v4.5",
+            "isDefault": true
+          },
+          {
+            "id": "v4",
+            "name": "PixVerse 4.0",
+            "displayName": "PixVerse 4.0", 
+            "apiValue": "v4"
+          },
+          {
+            "id": "v35",
+            "name": "PixVerse 3.5",
+            "displayName": "PixVerse 3.5",
+            "apiValue": "v3.5"
+          }
+        ],
+        "aspectRatios": [
+          {"id": "16:9", "displayName": "Landscape (16:9)", "value": "16:9"},
+          {"id": "4:3", "displayName": "Standard (4:3)", "value": "4:3"},
+          {"id": "1:1", "displayName": "Square (1:1)", "value": "1:1"},
+          {"id": "3:4", "displayName": "Portrait (3:4)", "value": "3:4"},
+          {"id": "9:16", "displayName": "Portrait (9:16)", "value": "9:16"}
+        ],
+        "durations": [5, 8]
+      },
+      {
+        "id": "vidu",
+        "name": "Vidu",
+        "displayName": "Vidu",
+        "icon": "play.rectangle.fill",
+        "description": "High quality video generation",
+        "supportsImageInput": false,
+        "supportsAudio": true,
+        "models": [
+          {
+            "id": "vidu15",
+            "name": "Vidu 1.5",
+            "displayName": "Vidu 1.5",
+            "apiValue": "vidu1.5",
+            "isDefault": true
+          },
+          {
+            "id": "viduq1",
+            "name": "Vidu Q1",
+            "displayName": "Vidu Q1",
+            "apiValue": "viduq1"
+          }
+        ],
+        "aspectRatios": [
+          {"id": "16:9", "displayName": "Landscape (16:9)", "value": "16:9"},
+          {"id": "9:16", "displayName": "Portrait (9:16)", "value": "9:16"},
+          {"id": "1:1", "displayName": "Square (1:1)", "value": "1:1"}
+        ],
+        "durations": [4, 5, 8]
+      },
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "displayName": "Sora 2",
+        "icon": "bolt.fill",
+        "description": "OpenAI's advanced video model",
+        "supportsImageInput": true,
+        "supportsAudio": true,
+        "models": [
+          {
+            "id": "sora2",
+            "name": "Sora 2",
+            "displayName": "Sora 2",
+            "apiValue": "Sora 2",
+            "isDefault": true
+          }
+        ],
+        "aspectRatios": [
+          {"id": "16:9", "displayName": "Landscape (16:9)", "value": "16:9"},
+          {"id": "9:16", "displayName": "Portrait (9:16)", "value": "9:16"},
+          {"id": "1:1", "displayName": "Square (1:1)", "value": "1:1"},
+          {"id": "4:3", "displayName": "Standard (4:3)", "value": "4:3"},
+          {"id": "3:4", "displayName": "Portrait (3:4)", "value": "3:4"}
+        ],
+        "durations": [4, 8, 12]
+      }
+    ]
+  },
+  "server_config": {
+    "remote_url": "https://your-server.com/api/ai-models-config",
+    "cache_duration_hours": 24,
+    "fallback_to_local": true
+  }
+}

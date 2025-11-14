@@ -40,11 +40,7 @@ struct VideosView: View {
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
                                 .background(
-                                    LinearGradient(
-                                        colors: [Color.purple, Color.pink],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
+                                    Color(hex: "B951E7")
                                 )
                                 .cornerRadius(20)
                             }
@@ -160,7 +156,7 @@ struct ModernFilterChip: View {
                     .fill(
                         isSelected ?
                         LinearGradient(
-                            colors: [Color.purple.opacity(0.8), Color.pink.opacity(0.8)],
+                            colors: [Color(hex: "B951E7").opacity(0.8), Color(hex: "B951E7").opacity(0.8)],
                             startPoint: .leading,
                             endPoint: .trailing
                         ) :
@@ -199,7 +195,7 @@ struct FilterChip: View {
                 .background(
                     isSelected ?
                     LinearGradient(
-                        colors: [Color.purple, Color.pink],
+                        colors: [Color(hex: "B951E7"), Color(hex: "B951E7")],
                         startPoint: .leading,
                         endPoint: .trailing
                     ) :
@@ -456,9 +452,9 @@ struct EmptyGalleryView: View {
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.purple.opacity(0.3),
-                                    Color.pink.opacity(0.3),
-                                    Color.blue.opacity(0.3)
+                                    Color(hex: "B951E7").opacity(0.3),
+                                    Color(hex: "B951E7").opacity(0.2),
+                                    Color(hex: "B951E7").opacity(0.1)
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
@@ -470,7 +466,7 @@ struct EmptyGalleryView: View {
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: [Color.purple.opacity(0.1), Color.pink.opacity(0.1)],
+                                colors: [Color(hex: "B951E7").opacity(0.1), Color(hex: "B951E7").opacity(0.05)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
@@ -507,14 +503,10 @@ struct EmptyGalleryView: View {
                     .padding(.horizontal, 32)
                     .padding(.vertical, 16)
                     .background(
-                        LinearGradient(
-                            colors: [Color.purple, Color.pink],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
+                        Color(hex: "B951E7")
                     )
                     .cornerRadius(30)
-                    .shadow(color: Color.purple.opacity(0.5), radius: 20, x: 0, y: 10)
+                    .shadow(color: Color(hex: "B951E7").opacity(0.5), radius: 20, x: 0, y: 10)
                 }
 
                 VStack(spacing: 16) {
